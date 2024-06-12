@@ -1,0 +1,43 @@
+This is an index of the files in this directory, which contains all of the code
+needed to reproduce our Energy Dependence of Cosmic Ray Anisotropy using 10 Years
+of Data Collected with IceTop burnsample analysis.
+
+Here is a link to a wiki page explaining the instructions:
+https://wiki.icecube.wisc.edu/index.php/IceTop_Cosmic_Ray_Anisotropy_Analysis_Code_Instructions
+
+01_l3_processing/
+    burnsample_hdf/
+        condor_dst_burnsample.sh        Moves temp files to out dir
+        l3_i3_burnsample_hdf.py         Burnsample .l3 -> .hdf5
+        run_condor.py                   Runs for specific time frames
+        steeringcardhdf_dstburnsample   Steering card produced by run_stuff.py
+    burnsample_root/
+        condor_dst_root.sh         Moves temp files to out dir
+        l3_i3_to_root_day.py       Burnsample .l3 -> .hdf5
+        run_condor.py              Runs for specific time frames
+        steeringcardhdf_dstroot    Steering card produced by run_stuff.py
+    sim_hdf/
+        condor_dst_hdf.sh          Moves temp files to out dir
+        l3_i3_sim_hdf.py           Simulation 2012 v1s .l3 -> .hdf5
+        run_stuff.py               Runs for specific time frames
+        steeringcardhdf_dstsim     Steering card produced by run_stuff.py
+    README.txt
+
+02_snow_accumulation/
+    s125.py                        Produces s125 log histograms for the snow accumulation study
+
+03_sim_study/
+    arrays/                        Dir where .npy arrays are stored
+    001_nstation_binning.py        Python script bins sim events and saves as .npy
+    002_loading_graphs.ipynb       Loads .npy arrays and produces simulation plots
+    ang_res_funcs.py               Contains helper functions for 002
+    README.txt                     Instructions
+
+05_skymaps/
+    fits/                          Input dir is for iteration 20 .fits.gz files
+    output/                        Default output dir for skymap and 1d proj pngs
+    1d_proj.py                     Python script produces a 1D proj on RA for a .fits.gz file
+    2dskymaps.py                   Python script produces 2D skymaps for rel. int. and sig. 
+    alltiers.sh                    Shell script runs 1d_proj.py for all four energy tiers.
+    mapFunctions.py                Contains helper functions for 1d_proj.py
+    README.txt                     Instructions
