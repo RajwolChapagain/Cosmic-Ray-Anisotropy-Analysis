@@ -55,6 +55,7 @@ def plot_ang_res_by_tier(data_list, bins_list, tiers, titles, param, x_coord):
     row = 0
     col = 0
 
+    
     for data, bins, tier, title in zip(data_list, bins_list,
                                        tiers, titles):
         ax_array[row, col].hist(data, bins=bins)
@@ -71,7 +72,8 @@ def plot_ang_res_by_tier(data_list, bins_list, tiers, titles, param, x_coord):
         # ax_array[row, col].vlines(55, 0, 5000000, linestyle = 'dashed')
 
         col = col + 1
-        if col == 2:
+        # if col == 2: #Pre-2015
+        if col == 1:
             col = 0
             row = row + 1
 
@@ -206,7 +208,8 @@ def plot_vs_zenith_bytier(data_list, titles, param):
         ax_array[row, col].set_yscale('log')
 
         col = col + 1
-        if (col == 2):
+        # if (col == 2): # Pre-2015
+        if (col == 1):
             col = 0
             row = row + 1
 
