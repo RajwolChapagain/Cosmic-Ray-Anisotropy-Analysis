@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import math
 import h5py, glob
 import pandas as pd
+import tables
+import simweights
 from icecube.weighting import weighting
 from icecube.weighting.fluxes import GaisserH4a_IT
 
@@ -14,12 +16,13 @@ from icecube.weighting.fluxes import GaisserH4a_IT
 # dataset 12630 He4Nucleus  = 1000020040
 # dataset 12631 O16Nucleus  = 1000080160
 # dataset 12362 Fe56Nucleus = 1000260560
-fnum = [12360, 12630, 12631, 12362]  # file number
+#fnum = [12360, 12630, 12631, 12362]  # file number
+fnum = [20174, 20178, 20179, 20180]  # file number
 ptype = [2212, 1000020040, 1000080160, 1000260560]  # particle type
 # In order: proton, helium, oxygen, iron
 
 # Define flux model used for icecube weighting
-flux = GaisserH4a_IT()
+flux = simweights.GaisserH4a_IT()
 
 """
 Naming convention:
@@ -99,6 +102,16 @@ def get_array(indir, j, it73c=0):
 
     # Get weighting from icecube (1 using mcprimary zenith and 1 for each
     # reconstructed zenith)
+
+    file_obj = tables.open_file(indir+'/l3_{}.hdf5'.format(fnum[j]), "r")
+    weighter = simweights.IceTopWeighter(file_obj)
+    weights = weighter.get_weights(flux)
+
+    mcw = weights
+    lapw = weights
+    spw = weights
+
+    """
     generator = weighting.from_simprod(fnum[j])
     generator *= 20000
     a = flux(f['MCPrimary']['energy'], ptype[j])
@@ -110,6 +123,9 @@ def get_array(indir, j, it73c=0):
 
     d = generator(f['MCPrimary']['energy'], ptype[j], np.cos(f['ShowerPlane']['zenith']))
     spw = (a / d)
+    """
+
+
 
     # Store array of number of stations activated by proton events
     stations = np.array(f['NStations']['value'])
@@ -198,6 +214,33 @@ def get_prot_iron(indir, it73=0):
     arr = get_all_particles(indir, it73)
     # Proton, Iron
     return [arr[0], arr[3]]
+
+def get_prot(indir, it73=0):
+    """
+    Gets list of parameters for proton and iron given input directory and index
+    of permutation for IT73 Quality Cuts.
+
+    Inputs
+    -----
+    Indir : String
+        Path to input directory containing the hdf5 files
+
+    it73: Integer from 0 to 2, optional
+        Index of IT73 Quality Cuts Permutation
+        0 -> No quality cuts [what we used in our analysis]
+        1 -> IceTop_reco_succeeded is applied
+        2 -> All IT73 Quality Cuts are applied
+
+    Returns
+    ------
+    particles : list
+        2D list. Each element is the list of parameters for a particle type
+        [[Proton], [Iron]]
+    """
+
+    arr = get_all_particles(indir, it73)
+    # Proton, Iron
+    return [arr[0]]
 
 
 def save_all_as_npy(indir, outdir, energies, it73=0):
