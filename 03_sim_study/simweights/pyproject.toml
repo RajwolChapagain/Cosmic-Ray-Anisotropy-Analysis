@@ -1,0 +1,140 @@
+# SPDX-FileCopyrightText: © 2022 the SimWeights contributors
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]
+
+[project]
+authors = [{name = "Kevin Meagher"}]
+classifiers = [
+  'Development Status :: 4 - Beta',
+  'Intended Audience :: Science/Research',
+  'License :: OSI Approved :: BSD License',
+  'Operating System :: MacOS :: MacOS X',
+  'Operating System :: POSIX :: Linux',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
+  'Topic :: Scientific/Engineering :: Astronomy',
+  'Topic :: Scientific/Engineering :: Physics'
+]
+dependencies = ["numpy>=1.21.2", "scipy"]
+dynamic = ["version", "description"]
+keywords = ["python", "science", "astronomy", "astrophysics", "IceCube", "neutrino", "simulation"]
+license = {file = "LICENSES/BSD-2-Clause.txt"}
+name = "simweights"
+readme = "README.rst"
+requires-python = "~=3.7"
+
+[project.optional-dependencies]
+dev = ["pytest", "pre-commit", "reuse", "black", "ruff", "pylint", "mypy"]
+docs = ["sphinx", "sphinx-rtd-theme", "pandas"]
+examples = ['matplotlib']
+test = [
+  "h5py",
+  "tables < 3.8; python_version < '3.9'",
+  "tables",
+  "pandas",
+  "uproot",
+  "pytest-cov",
+  'pytest-regressions'
+]
+
+[project.scripts]
+simweights = "simweights.cmdline:main"
+
+[project.urls]
+Collaboration = "https://icecube.wisc.edu"
+Documentation = "https://docs.icecube.aq/simweights/main"
+Source = "https://github.com/icecube/simweights"
+
+[tool.codespell]
+ignore-words-list = 'livetime,assertIn'
+skip = '_build'
+
+[tool.coverage.report]
+exclude_also = ["from numpy.typing import"]
+
+[tool.coverage.run]
+command_line = "-m pytest"
+omit = ["*/simweights/cmdline.py"]
+source = ["simweights"]
+
+[tool.doc8]
+max-line-length = 128
+
+[tool.mypy]
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+plugins = "numpy.typing.mypy_plugin"
+strict = true
+warn_unreachable = true
+
+[tool.pylint.format]
+max-line-length = "128"
+
+[tool.pylint.messages_control]
+disable = "C0114,R0902,R0913"
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-config", "--strict-markers", "--cov=simweights", "-W ignore"]
+filterwarnings = ["error"]
+log_cli_level = "INFO"
+minversion = 7.0
+testpaths = ["tests"]
+xfail_strict = true
+
+[tool.ruff]
+line-length = 128
+namespace-packages = ["examples", "contrib", "docs"]
+src = ["src"]
+target-version = "py38"
+
+[tool.ruff.lint]
+fixable = ["I"]
+ignore = [
+  "ANN401",  # any-type
+  "S101",  # assert-used
+  "COM812",  # conflicts with ruff formatter
+  "ISC001",  # conflicts with ruff formatter
+  "PLR0913"  # Too many arguments in function definition
+]
+select = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"contrib/*" = ["T201"]
+"examples/*" = [
+  "D",  # pydocstyle
+  "F401",  # unused-import
+  "T201"  # flake8-print
+]
+"tests/*" = [
+  "D",  # pydocstyle
+  "N",  # pep8-naming
+  "ANN",  # flake8-annotations
+  "PT",  # flake8-pytest-style
+  "PGH001",  # eval
+  "SLF001",  # private-member-access
+  "PLR2004",  # magic-value-comparison
+  "PLR0915",  # too-many-statements
+  "S307"  # suspicious-eval-usage
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py3{8,9,10,11,12}
+isolated_build = True
+
+[testenv]
+passenv = SIMWEIGHTS_TESTDATA, HDF5_DIR
+deps = .[test]
+commands = pytest
+"""
