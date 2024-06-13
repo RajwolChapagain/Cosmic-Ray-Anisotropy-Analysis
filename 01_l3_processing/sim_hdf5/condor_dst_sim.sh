@@ -13,5 +13,3 @@ cd $TMPDIR
 python l3_i3_sim_hdf.py $1 $2 $3
 
 mv l3_* /data/user/@USER_DIR@/sim
-
-

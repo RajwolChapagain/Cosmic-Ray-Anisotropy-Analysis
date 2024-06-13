@@ -35,7 +35,7 @@ fnum = int(sys.argv[2])
 #physics = glob("/data/ana/CosmicRay/IceTop_level3/sim/IC86.2012/SIBYLL2.1/He/12630_v1s/Level3_IC86.2012_SIBYLL2.1_He_12630*.i3.*")
 
 #change this line if you are changing which simulation you are using
-physics = glob("/data/ana/CosmicRay/IceTop_level3/sim/IC86.2012/SIBYLL2.1/"+particle+"/"+str(fnum)+"_v1s/Level3_IC86.2012_SIBYLL2.1_"+particle+"_"+str(fnum)+"*.i3.*")
+physics = glob("/data/ana/CosmicRay/IceTop_level3/sim/IC86.2015/SIBYLL2.1/"+particle+"/"+str(fnum)+"_v1s/Level3_IC86.2015_SIBYLL2.1_"+particle+"_"+str(fnum)+"*.i3.*")
 
 #physics = glob("/data/ana/CosmicRay/IceTop_level3/exp/IC86."+str(run_year)+"/"+str(year)+"/*/Level3_IC86."+str(run_year)+"*0_Subrun*.i3.*")
 
@@ -72,6 +72,7 @@ if len(physics)!=0:
                     Output=temp_outfile,
                     Keys=[
                         'I3EventHeader',
+                        'I3TopInjectorInfo',
                         'QFilterMask',
                         'Laputop',
                         'LaputopParams',

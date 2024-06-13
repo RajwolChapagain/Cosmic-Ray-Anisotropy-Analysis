@@ -1,6 +1,6 @@
 Executable = condor_dst_sim.sh
 
-arguments = particle_type particle_number
+arguments = Fe 20180
 
 output = /data/user/@USER_DIR@/log/condor.out.$(ClusterId)
 error = /data/user/@USER_DIR@/log/condor.err.$(ClusterId)

@@ -2,7 +2,7 @@ import os, fileinput, sys
 
 
 def runSim(particle, fnum):
-	for line in fileinput.input('steeringcard_sim',inplace=1):
+	for line in fileinput.input('steeringcard_dstsim',inplace=1):
 		arg_string = particle + ' ' + str(fnum)
 		if 'arguments' in line:
 			line = line.replace(line, 'arguments = '+arg_string+'\n')
@@ -16,8 +16,7 @@ def runSim(particle, fnum):
 #O 12631 Me
 #Fe 362
 
-runSim("p", 12360)
-runSim("He", 12630)
-runSim("O", 12631)
-runSim("Fe", 12362)
-
+runSim("p", 20174)
+runSim("He", 20178)
+runSim("O", 20179)
+runSim("Fe", 20180)
