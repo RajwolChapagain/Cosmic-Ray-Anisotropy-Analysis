@@ -26,7 +26,7 @@ parser.add_argument('infile', nargs='*')
 #parser.add_argument('outfile')
 opts = parser.parse_args()
 
-outfile_path = '' #update this to the outfile path that you want
+outfile_path = '/data/user/rchapagain/cra_analysis/sim_2012_simweights' #update this to the outfile path that you want
 
 particle = str(sys.argv[1])
 fnum = int(sys.argv[2])
@@ -71,6 +71,7 @@ if len(physics)!=0:
                     #Output=opts.outfile, 
                     Output=temp_outfile,
                     Keys=[
+                        'I3TopInjectorInfo',
                         'I3EventHeader',
                         'QFilterMask',
                         'Laputop',
