@@ -12,6 +12,6 @@ cp l3_i3_sim_hdf.py $TMPDIR
 cd $TMPDIR
 python l3_i3_sim_hdf.py $1 $2 $3
 
-mv l3_* /data/user/@USER_DIR@/sim
+mv l3_* /data/user/rchapagain/cra_analysis/sim_2012_simweights
 
 
