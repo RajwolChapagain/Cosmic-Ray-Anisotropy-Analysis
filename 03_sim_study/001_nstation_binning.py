@@ -17,7 +17,7 @@ from icecube.weighting.fluxes import GaisserH4a_IT
 # dataset 12631 O16Nucleus  = 1000080160
 # dataset 12362 Fe56Nucleus = 1000260560
 #fnum = [12360, 12630, 12631, 12362]  # file number
-fnum = [20174, 20178, 20179, 20180]  # file number
+fnum = [22570, 22580, 22583, 22586]  # file number
 ptype = [2212, 1000020040, 1000080160, 1000260560]  # particle type
 # In order: proton, helium, oxygen, iron
 
