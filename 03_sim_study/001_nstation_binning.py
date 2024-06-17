@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import math
 import h5py, glob
 import pandas as pd
+import tables
+import simweights
 from icecube.weighting import weighting
 from icecube.weighting.fluxes import GaisserH4a_IT
 
@@ -19,7 +21,7 @@ ptype = [2212, 1000020040, 1000080160, 1000260560]  # particle type
 # In order: proton, helium, oxygen, iron
 
 # Define flux model used for icecube weighting
-flux = GaisserH4a_IT()
+flux = simweights.GaisserH4a_IT()
 
 """
 Naming convention:
@@ -99,17 +101,13 @@ def get_array(indir, j, it73c=0):
 
     # Get weighting from icecube (1 using mcprimary zenith and 1 for each
     # reconstructed zenith)
-    generator = weighting.from_simprod(fnum[j])
-    generator *= 20000
-    a = flux(f['MCPrimary']['energy'], ptype[j])
-    b = generator(f['MCPrimary']['energy'], ptype[j], np.cos(f['MCPrimary']['zenith']))
-    mcw = a / b
-
-    c = generator(f['MCPrimary']['energy'], ptype[j], np.cos(f['Laputop']['zenith']))
-    lapw = a / c
-
-    d = generator(f['MCPrimary']['energy'], ptype[j], np.cos(f['ShowerPlane']['zenith']))
-    spw = (a / d)
+    file_obj = tables.open_file(indir+'/l3_{}.hdf5'.format(fnum[j]), "r")
+    weighter = simweights.IceTopWeighter(file_obj)
+    weights = weighter.get_weights(flux)
+    
+    mcw = weights
+    lapw = weights
+    spw = weights
 
     # Store array of number of stations activated by proton events
     stations = np.array(f['NStations']['value'])
