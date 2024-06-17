@@ -16,7 +16,7 @@ def runSim(particle, fnum):
 #O 12631 Me
 #Fe 362
 
-runSim("p", 20174)
-runSim("He", 20178)
-runSim("O", 20179)
-runSim("Fe", 20180)
+runSim("p", 22570)
+runSim("He", 22580)
+runSim("O", 22583)
+runSim("Fe", 22586)
