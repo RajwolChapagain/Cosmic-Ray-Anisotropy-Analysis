@@ -4,7 +4,7 @@ from icecube.hdfwriter import I3HDFWriter
 from I3Tray import I3Tray
 from icecube.icetop_Level3_scripts.functions import count_stations
 
-import sys 
+import sys, os
 import numpy as np
 from argparse import ArgumentParser
 from glob import glob
@@ -24,8 +24,6 @@ parser = ArgumentParser(description=__doc__)
 parser.add_argument('infile', nargs='*')
 #parser.add_argument('outfile')
 opts = parser.parse_args()
-
-outfile_path = ''#update to correct outfile path
 
 run_year = int(sys.argv[1])
 year = int(sys.argv[2])
