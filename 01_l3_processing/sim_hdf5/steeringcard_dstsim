@@ -6,8 +6,8 @@ output = /data/user/@USER_DIR@/log/condor.out.$(ClusterId)
 error = /data/user/@USER_DIR@/log/condor.err.$(ClusterId)
 log = /scratch/@USER_DIR@/log/condor.log.$(ClusterId)
 
-request_memory = 8GB
-request_disk = 10GB
+request_memory = 2GB
+request_disk = 1MB
 
 #Notification = Error
 getenv  = True

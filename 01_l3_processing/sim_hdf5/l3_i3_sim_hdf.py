@@ -26,7 +26,6 @@ parser.add_argument('infile', nargs='*')
 #parser.add_argument('outfile')
 opts = parser.parse_args()
 
-outfile_path = '' #update this to the outfile path that you want
 
 particle = str(sys.argv[1])
 fnum = int(sys.argv[2])

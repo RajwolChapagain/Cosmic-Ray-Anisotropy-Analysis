@@ -5,6 +5,8 @@
 #eval cvmfs
 #eval combo
 
+# Define the output directory
+OUTPUT_DIR="OUTPUT_DIR"
 
 TMPDIR=$(mktemp -d)
 cp l3_i3_sim_hdf.py $TMPDIR
@@ -12,6 +14,13 @@ cp l3_i3_sim_hdf.py $TMPDIR
 cd $TMPDIR
 python l3_i3_sim_hdf.py $1 $2 $3
 
-mv l3_* /data/user/@USER_DIR@/sim
+if [ ! -d "$OUTPUT_DIR" ]; then
+  mkdir -p "$OUTPUT_DIR"
+  echo "Directory $OUTPUT_DIR created."
+else
+  echo "Directory $OUTPUT_DIR already exists."
+fi
+
+mv l3_* $OUTPUT_DIR
 
 
