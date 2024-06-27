@@ -5,6 +5,8 @@
 #eval cvmfs
 #eval combo
 
+# Define the output directory
+OUTPUT_DIR="OUTPUT_DIR"
 
 TMPDIR=$(mktemp -d)
 cp l3_i3_to_root_day.py $TMPDIR
@@ -12,6 +14,14 @@ cp l3_i3_to_root_day.py $TMPDIR
 cd $TMPDIR
 python l3_i3_to_root_day.py $1 $2 $3 $4
 
-mv l3_data* /data/user/@USER_DIR@/burnsamplemaps
+if [ ! -d "$OUTPUT_DIR" ]; then
+  mkdir -p "$OUTPUT_DIR"
+  echo "Directory $OUTPUT_DIR created."
+else
+  echo "Directory $OUTPUT_DIR already exists."
+fi
+
+mv l3_data* $OUTPUT_DIR
+
 
 

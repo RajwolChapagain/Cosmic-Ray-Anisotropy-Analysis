@@ -27,7 +27,6 @@ parser.add_argument('infile', nargs='*')
 #parser.add_argument('outfile')
 opts = parser.parse_args()
 
-outfile_path = '' #update to correct outfile path
 
 run_year = int(sys.argv[1])
 year = int(sys.argv[2])
@@ -35,7 +34,7 @@ month = int(sys.argv[3])
 day = int(sys.argv[4])
 
 
-physics = glob("/data/ana/CosmicRay/IceTop_level3/exp/IC86."+str(run_year)+"_pass2_v*/"+str(year)+"/"+str(month).zfill(2)+str(day).zfill(2)+"/*/Level3_IC86."+str(run_year)+"*_Subrun*.i3.*")
+physics = glob("/data/ana/CosmicRay/IceTop_level3/exp/IC86."+str(run_year)+"_pass2_v*/"+str(year)+"/"+str(month).zfill(2)+str(day).zfill(2)+"/*/Level3_IC86."+str(run_year)+"*0_Subrun*.i3.*")
 #glob() the list of files from the disk
 
 
