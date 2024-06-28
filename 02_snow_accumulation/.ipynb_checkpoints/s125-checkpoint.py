@@ -5,78 +5,23 @@ import pandas as pd
 from pandas.plotting import table 
 IT73_quality_cuts = []# ['IceTop_reco_succeeded', 'Laputop_FractionContainment'] #pick which Quality Cuts you want to apply
 run_years = np.arange(2011, 2022, 1)
-path_to_hdf5_files = '/data/user/gagrawal/dst_data/10yburnsample'
-path_to_save_files = '/data/user/slehrman/s125arrays'
+path_to_arrays = '/data/user/slehrman/s125arrays' #UPDATE TO CORRECT DIRECTORY
 
 #determining station cuts
 #for 2021 station cuts will be tier3_min_station=<tier3 nstations<tier4_min_station and tier4_min_station=<tier4 nstations
 #for 2011 station cuts will be tier2_min_station=<tier2 nstations<(tier3_min_station + (1/years_to_increase * 11))....
 
 tier2_min_station = 5 #this is the tier2 energy minimum cut for 2011
-tier3_min_station = 5 #this is the tier2 energy minimum cut for 2021
-tier4_min_station = 12 #this is the tier4 energy minimum cut for 2021
+tier3_min_station_2021 = 5 #this is the tier2 energy minimum cut for 2021
+tier4_min_station_2021 = 12 #this is the tier4 energy minimum cut for 2021
 years_to_increase_cut = 2 #for example, every 2 years cut increases by 1, so 2021 tier 3 is 5-12, but 2019 tier 3 is 6-13
 
-
-#this block of text creates the s125, Nstation, and zenith arrays from the hdf5 files, once created comment out this block because it has a long runtime
-'''
-for run_year in run_years:
-    globals()['s125_'+str(run_year)] = []
-    globals()['stations_'+str(run_year)] = []
-    globals()['zenith_'+str(run_year)] = []
-    for file in glob.glob('{}/l3_data_run_config_{}_*.hdf5'.format(path_to_hdf5_files, run_year)):
-        f = h5py.File(file, 'r')
-        globals()['s125_'+str(run_year)].extend(f['LaputopParams']['s125'])
-        globals()['stations_'+str(run_year)].extend(f['NStations']['value'])
-        globals()['zenith_'+str(run_year)].extend(f['Laputop']['zenith'])
-    np.save('{}/s125_{}'.format(path_to_save_files, str(run_year)), globals()['s125_'+str(run_year)])
-    np.save('{}/stations_{}'.format(path_to_save_files, str(run_year)), globals()['stations_'+str(run_year)])
-    np.save('{}/zenith_{}'.format(path_to_save_files, str(run_year)), globals()['zenith_'+str(run_year)])
-    #print(run_year, len(globals()['s125_'+str(run_year)]), len(globals()['stations_'+str(run_year)])) 
-'''   
-
-#this block of text creates the quality cuts arrays from the hdf5 files, once created comment out this block because it has a long runtime
-
-'''
-for run_year in run_years:
-    globals()['IceTop_reco_succeeded_'+str(run_year)] = []
-    globals()['Laputop_FractionContainment_'+str(run_year)] = []
-    globals()['StationDensity_passed_'+str(run_year)] = []
-    globals()['exists_'+str(run_year)] = []
-    globals()['BetaCutPassed_'+str(run_year)] = []
-    globals()['IceTopMaxSignalAbove6_'+str(run_year)] = []
-    globals()['IceTopMaxSignalInside_'+str(run_year)] = []
-    globals()['IceTopNeighbourMaxSignalAbove4_'+str(run_year)] = []
-    globals()['IceTop_StandardFilter_'+str(run_year)] = []
-    for file in glob.glob('{}/l3_data_run_config_{}_*.hdf5'.format(path_to_hdf5_files, run_year)):
-        f = h5py.File(file, 'r')
-        globals()['IceTop_reco_succeeded_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['IceTop_reco_succeeded'])
-        globals()['Laputop_FractionContainment_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['Laputop_FractionContainment'])
-        globals()['StationDensity_passed_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['StationDensity_passed'])
-        globals()['exists_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['exists'])
-        globals()['BetaCutPassed_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['BetaCutPassed'])
-        globals()['IceTopMaxSignalAbove6_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['IceTopMaxSignalAbove6'])
-        globals()['IceTopMaxSignalInside_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['IceTopMaxSignalInside'])
-        globals()['IceTopNeighbourMaxSignalAbove4_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['IceTopNeighbourMaxSignalAbove4'])
-        globals()['IceTop_StandardFilter_'+str(run_year)].extend(f['IT73AnalysisIceTopQualityCuts']['IceTop_StandardFilter'])
-    np.save('{}/IceTop_reco_succeeded_{}'.format(path_to_save_files, str(run_year)), globals()['IceTop_reco_succeeded_'+str(run_year)])
-    np.save('{}/Laputop_FractionContainment_{}'.format(path_to_save_files, str(run_year)), globals()['Laputop_FractionContainment_'+str(run_year)])
-    np.save('{}/StationDensity_passed_{}'.format(path_to_save_files, str(run_year)), globals()['StationDensity_passed_'+str(run_year)])
-    np.save('{}/exists_{}'.format(path_to_save_files, str(run_year)), globals()['exists_'+str(run_year)])
-    np.save('{}/BetaCutPassed_{}'.format(path_to_save_files, str(run_year)), globals()['BetaCutPassed_'+str(run_year)])
-    np.save('{}/IceTopMaxSignalAbove6_{}'.format(path_to_save_files, str(run_year)), globals()['IceTopMaxSignalAbove6_'+str(run_year)])
-    np.save('{}/IceTopMaxSignalInside_{}'.format(path_to_save_files, str(run_year)), globals()['IceTopMaxSignalInside_'+str(run_year)])
-    np.save('{}/IceTopNeighbourMaxSignalAbove4_{}'.format(path_to_save_files, str(run_year)), globals()['IceTopNeighbourMaxSignalAbove4_'+str(run_year)])
-    np.save('{}/IceTop_StandardFilter_{}'.format(path_to_save_files, str(run_year)), globals()['IceTop_StandardFilter_'+str(run_year)])
-    print(run_year, len(globals()['IceTop_reco_succeeded_'+str(run_year)]), len(globals()['exists_'+str(run_year)]))
-
-'''
 #-------
 #this block loads the s125, stations, and zenith arrays that were created above
 for run_year in run_years:
-    globals()['s125_'+str(run_year)] = np.load('{}/s125_{}.npy'.format(path_to_save_files, run_year), 'r')
-    globals()['stations_'+str(run_year)] = np.load('{}/stations_{}.npy'.format(path_to_save_files, run_year), 'r')
-    globals()['zenith_' + str(run_year)] = np.load('{}/zenith_{}.npy'.format(path_to_save_files, run_year), 'r')
+    globals()['s125_'+str(run_year)] = np.load('{}/s125_{}.npy'.format(path_to_arrays, run_year), 'r')
+    globals()['stations_'+str(run_year)] = np.load('{}/stations_{}.npy'.format(path_to_arrays, run_year), 'r')
+    globals()['zenith_' + str(run_year)] = np.load('{}/zenith_{}.npy'.format(path_to_arrays, run_year), 'r')
    # print(len(globals()['s125_'+str(run_year)]), len(globals()['stations_'+str(run_year)]), len(globals()['zenith_' + str(run_year)]))
 
 #-------
@@ -84,7 +29,7 @@ for run_year in run_years:
 for run_year in run_years:
     finalcut = np.ones(len(globals()['s125_'+str(run_year)]), dtype=int)
     for IT73_quality_cut in IT73_quality_cuts:
-        globals()[IT73_quality_cut+'_cut'] = np.load('{}/{}_{}.npy'.format(path_to_save_files, IT73_quality_cut, str(run_year)))
+        globals()[IT73_quality_cut+'_cut'] = np.load('{}/{}_{}.npy'.format(path_to_arrays, IT73_quality_cut, str(run_year)))
         for i in range(len(globals()[IT73_quality_cut+'_cut'])):
             if globals()[IT73_quality_cut+'_cut'][i] == 0:
                 finalcut[i] = 0
@@ -97,7 +42,7 @@ for run_year in run_years:
 #-------
 #eliminating nan and inf events, and applying the zenith quality cut
 for run_year in run_years:
-    
+    zenith_cut = np.deg2rad(55)
     #print(run_year, len(globals()['s125_'+str(run_year)]), len(globals()['stations_'+str(run_year)]))
     globals()['stations_'+str(run_year)] = globals()['stations_'+str(run_year)][np.where(~np.isnan(globals()['s125_'+str(run_year)]))]
     globals()['zenith_'+str(run_year)] = globals()['zenith_'+str(run_year)][np.where(~np.isnan(globals()['s125_'+str(run_year)]))]
@@ -107,8 +52,8 @@ for run_year in run_years:
     globals()['zenith_'+str(run_year)] = globals()['zenith_'+str(run_year)][np.where(np.isfinite(globals()['s125_'+str(run_year)]))]
     globals()['s125_'+str(run_year)] = globals()['s125_'+str(run_year)][np.where(np.isfinite(globals()['s125_'+str(run_year)]))]
     
-    globals()['s125_'+str(run_year)] = globals()['s125_'+str(run_year)][np.where(globals()['zenith_' + str(run_year)] < 55)]
-    globals()['stations_'+str(run_year)] = globals()['stations_'+str(run_year)][np.where(globals()['zenith_' + str(run_year)] < 55)]
+    globals()['s125_'+str(run_year)] = globals()['s125_'+str(run_year)][np.where(globals()['zenith_' + str(run_year)] < zenith_cut)]
+    globals()['stations_'+str(run_year)] = globals()['stations_'+str(run_year)][np.where(globals()['zenith_' + str(run_year)] < zenith_cut)]
     #print(run_year, len(globals()['s125_'+str(run_year)]), len(globals()['stations_'+str(run_year)]))
  
 #--------
@@ -118,6 +63,9 @@ cuts = []
 reversed_run_years = reversed(run_years)
 i = 0
 for run_year in reversed_run_years:
+    if run_year == 2021:
+        tier3_min_station = tier3_min_station_2021
+        tier4_min_station = tier4_min_station_2021
     if i == years_to_increase_cut: #this if statement increases the station cut boundries going back in the increment specified by years_to_increase
         tier3_min_station +=1
         tier4_min_station += 1
@@ -126,7 +74,7 @@ for run_year in reversed_run_years:
     globals()['tier3'+str(run_year)] = globals()['s125_'+str(run_year)][np.where((globals()['stations_'+str(run_year)] >= tier3_min_station) & (globals()['stations_'+str(run_year)] < tier4_min_station))]
       
     i += 1
-    
+    # CHECK THIS LINE
     if run_year in [2011, 2012, 2013, 2014, 2015]:
         globals()['tier2'+str(run_year)] = globals()['s125_'+str(run_year)][np.where((globals()['stations_'+str(run_year)] >= tier2_min_station) & (globals()['stations_'+str(run_year)] < tier3_min_station))]
         display_tier2_cuts = '{} ≤ bins < {}'.format(tier2_min_station, tier3_min_station)
@@ -193,11 +141,10 @@ for run_year in run_years:
     else:
         number_of_events.append(['', len(globals()['tier3'+str(run_year)]), len(globals()['tier4'+str(run_year)]), 
                             str(len(globals()['tier3'+str(run_year)])+len(globals()['tier4'+str(run_year)]))])
-run_years = np.append(run_years, 'total')
+display_run_years = np.append(run_years, 'total')
 number_of_events.append([tier2_total, tier3_total, tier4_total, total_total])
         
-tab = dict(zip(run_years, number_of_events))  
-run_years = np.arange(2011, 2022, 1)
+tab = dict(zip(display_run_years, number_of_events)) 
 df1 = pd.DataFrame.from_dict(tab, orient='index', columns = (['Tier 2', 'Tier 3', 'Tier 4', 'Total']))
 
 #display(df1) #this is a prettier way to display the table when using jupyter
@@ -209,6 +156,7 @@ table(ax1, df1, loc='center')  # where df is your data frame
 
 fig1.savefig('number_of_events.png', bbox_inches='tight')
 
+#--------
 #this function is to display the numbers in scientific notation
 def sn(number, sig_fig=1):
     ret_string = "{0:.{1:d}e}".format(number, sig_fig)
@@ -218,7 +166,6 @@ def sn(number, sig_fig=1):
     return a + " * 10^" + str(b)
 
 
-run_years = np.arange(2011, 2022, 1)
 
 cuts = []
 tierdisplay = []
@@ -231,6 +178,9 @@ total_total= 0
 reversed_run_years = reversed(run_years)
 i = 0
 for run_year in reversed_run_years:
+    if run_year == 2021:
+        tier3_min_station = tier3_min_station_2021
+        tier4_min_station = tier4_min_station_2021
     if i == years_to_increase_cut:
         tier3_min_station +=1
         tier4_min_station += 1

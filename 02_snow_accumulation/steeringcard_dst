@@ -1,0 +1,13 @@
+Executable = s125_arrays.sh
+arguments = 2011 
+
+output = /data/user/@USER_DIR@/log/condor.out.$(ClusterId)
+error = /data/user/@USER_DIR@/log/condor.err.$(ClusterId)
+log = /scratch/@USER_DIR@/log/condor.log.$(ClusterId)
+
+request_memory = 8GB
+request_disk = 2GB
+
+#Notification = Error
+getenv  = True
+Queue
