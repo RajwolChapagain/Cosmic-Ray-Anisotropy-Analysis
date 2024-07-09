@@ -67,7 +67,7 @@ def plot_ang_res_by_tier(data_list, bins_list, tiers, titles, param, x_coord):
         s2 = 'RMS: {}'.format(round(np.sqrt(np.mean(data ** 2)), 3))
         ax_array[row, col].annotate(s1, xy=(20, 60), xytext=(x_coord, 1000),
                                     fontsize=18)
-        ax_array[row, col].annotate(s2, xy=(20, 40), xytext=(x_coord, 500),
+        ax_array[row, col].annotate(s2, xy=(20, 40), xytext=(x_coord, 200),
                                     fontsize=18)
         # ax_array[row, col].vlines(55, 0, 5000000, linestyle = 'dashed')
 
