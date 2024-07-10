@@ -160,12 +160,15 @@ def reco_zen_res_bytier(mc_zen, reco_zen, reco_names, tiers):
 
 def reco_az_res_bytier(mc_az, reco_az, reco_names, tiers):
     azdiffs = []
-    abins = np.linspace(-360, 360, 721)
+    abins = np.linspace(-180, 180, 361)
     titles = []
     ab_centres = []
 
     for (true_az, reco_az, reconstruction) in zip(mc_az, reco_az, reco_names):
-        azdiffs.append(true_az - reco_az)
+        diff = true_az - reco_az
+        diff = np.where(diff < -180, diff + 360, diff)
+        diff = np.where(diff > 180, diff - 360, diff)
+        azdiffs.append(diff)
         ab_centres.append(0.5 * (abins[1:] + abins[:-1]))
         titles.append("MC Azimuth - " + reconstruction)
 
