@@ -47,7 +47,7 @@ def get_cosine_binning(upper_bound, bin_count):
 def plot_ang_res_by_tier(data_list, bins_list, tiers, titles, param, x_coord):
     n = len(data_list)
     height = math.ceil(n / 2)
-    fig = plt.figure(figsize=(12, 6 * height), constrained_layout=True)
+    fig = plt.figure(figsize=(6, 6 * height), constrained_layout=True)
     ax_array = fig.subplots(2, height, squeeze=False)
     fig.suptitle('Reconstruction Resolution for ' + param + ' By Tier',
                  fontsize=15)
